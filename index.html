@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Alpine.js Page Editor</title>
+
+        <!-- Alpine.js -->
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+        <style>
+            /* General page styles */
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                line-height: 1.6;
+                color: #333;
+                margin: 0;
+                padding: 0;
+                background-color: #f7f9fc;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+
+            /* Demo styles */
+            .hero-section {
+                background: linear-gradient(135deg, #6366f1, #8b5cf6);
+                color: white;
+                padding: 60px 0;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+                opacity: 0.9;
+            }
+
+            .services-section {
+                padding: 80px 0;
+            }
+
+            .section-title {
+                text-align: center;
+                font-size: 2.2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .section-description {
+                text-align: center;
+                max-width: 700px;
+                margin: 0 auto 3rem;
+                color: #4b5563;
+            }
+
+            .services-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 30px;
+            }
+
+            .service-card {
+                background: white;
+                border-radius: 10px;
+                overflow: hidden;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s;
+            }
+
+            .service-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .service-image {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+            }
+
+            .service-content {
+                padding: 20px;
+            }
+
+            .service-title {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            .service-description {
+                color: #4b5563;
+                margin-bottom: 15px;
+            }
+
+            .about-section {
+                padding: 80px 0;
+                background-color: #f3f4f6;
+            }
+
+            .about-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+                align-items: center;
+            }
+
+            .about-content {
+                padding-right: 20px;
+            }
+
+            .about-title {
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+            }
+
+            .about-text {
+                color: #4b5563;
+                margin-bottom: 25px;
+            }
+
+            .about-image {
+                width: 100%;
+                border-radius: 10px;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Responsive adjustments */
+            @media (max-width: 768px) {
+                .about-container {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div x-data="app" id="app">
+            <template x-if="loaded">
+                <div>
+                    <!-- Hero Section -->
+                    <header class="hero-section" x-editable="hero">
+                        <div class="hero-content">
+                            <h1 class="hero-title" x-text="data.hero.title"></h1>
+                            <p class="hero-subtitle" x-text="data.hero.subtitle"></p>
+                        </div>
+                    </header>
+
+                    <!-- Services Section -->
+                    <section class="services-section">
+                        <div class="container">
+                            <div x-editable="services">
+                                <h2 class="section-title" x-text="data.services.title"></h2>
+                                <p class="section-description" x-text="data.services.description"></p>
+
+                                <div class="services-grid">
+                                    <template x-for="(service, index) in data.services.items" :key="index">
+                                        <div class="service-card">
+                                            <img :src="service.image" :alt="service.title" class="service-image" />
+                                            <div class="service-content">
+                                                <h3 class="service-title" x-text="service.title"></h3>
+                                                <p class="service-description" x-text="service.description"></p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- About Section -->
+                    <section class="about-section">
+                        <div class="container">
+                            <div class="about-container" x-editable="about">
+                                <div class="about-content">
+                                    <h2 class="about-title" x-text="data.about.title"></h2>
+                                    <p class="about-text" x-text="data.about.text"></p>
+                                </div>
+                                <div>
+                                    <img :src="data.about.image" alt="About Us" class="about-image" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </template>
+        </div>
+
+        <link rel="stylesheet" href="js/alpinejs-page-editor.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pica/9.0.1/pica.min.js" integrity="sha512-FH8Ofw1HLbwK/UTvlNBxsfICDXYZBr9dPuTh3j17E5n1QZjaucKikW6UwMREFo7Z42AlIigHha3UVwWepr0Ujw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="js/alpinejs-page-editor.js"></script>
+    </body>
+</html>

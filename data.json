@@ -1,0 +1,32 @@
+{
+    "hero": {
+        "title": "Welcome to Alpine.js Page Editor",
+        "subtitle": "A simple, reactive content editor that works with any HTML structure"
+    },
+    "services": {
+        "title": "Our Services",
+        "description": "We offer a wide range of services to meet your needs",
+        "items": [
+            {
+                "title": "Web Development",
+                "description": "Custom websites built with the latest technologies.",
+                "image": "img/placeholder.jpg"
+            },
+            {
+                "title": "App Development",
+                "description": "Mobile applications for iOS and Android platforms.",
+                "image": "img/placeholder.jpg"
+            },
+            {
+                "title": "UI/UX Design",
+                "description": "User-friendly interfaces that enhance the user experience.",
+                "image": "img/placeholder.jpg"
+            }
+        ]
+    },
+    "about": {
+        "title": "About Us",
+        "text": "We are a team of passionate developers and designers dedicated to creating beautiful and functional digital experiences.",
+        "image": "img/placeholder.jpg"
+    }
+}
