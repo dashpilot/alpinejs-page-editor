@@ -166,7 +166,7 @@
                                 <div class="services-grid">
                                     <template x-for="(service, index) in data.services.items" :key="index">
                                         <div class="service-card">
-                                            <img :src="service.image" :alt="service.title" class="service-image" />
+                                            <img :src="service.image || 'img/placeholder.jpg'" :alt="service.title" class="service-image" />
                                             <div class="service-content">
                                                 <h3 class="service-title" x-text="service.title"></h3>
                                                 <p class="service-description" x-text="service.description"></p>

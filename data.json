@@ -1,7 +1,7 @@
 {
     "hero": {
         "title": "Welcome to Alpine.js Page Editor",
-        "subtitle": "A simple, reactive content editor that works with any HTML structure"
+        "description": "A simple, reactive content editor that works with any HTML structure"
     },
     "services": {
         "title": "Our Services",
