@@ -8,7 +8,7 @@ Alpinejs page editor is an easy-to-use and intuitive on-page editor for any Alpi
 
 # Preview
 
-<img src="img/preview.png" style="width: 75%" />
+<img src="img/preview.png" style="width: 100%" />
 
 # Demo
 
