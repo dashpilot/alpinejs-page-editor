@@ -1,6 +1,6 @@
 # Alpine.js Page Editor
 
-Alpinejs page editor is an easy-to-use and intuitive on-page editor for any Alpine.js project. It will automatically generate the editor forms based on the structure of your data! Furthermore it features:
+Alpinejs Page Editor is an easy-to-use on-page editor for any Alpine.js project. It will automatically generate the editor forms based on the structure of your data! Furthermore it features:
 
 -   editing of single-line and multiline text
 -   in-browser image upload and resize
