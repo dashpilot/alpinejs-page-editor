@@ -10,6 +10,10 @@ Alpinejs page editor is an easy-to-use and intuitive on-page editor for any Alpi
 
 https://alpinejs-page-editor.vercel.app
 
+# Preview
+
+<img src="img/preview.png" style="width: 50%" />
+
 # How to use
 
 First, include the necessary scripts and CSS at the bottom of your page:
