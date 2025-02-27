@@ -6,13 +6,13 @@ Alpinejs page editor is an easy-to-use and intuitive on-page editor for any Alpi
 -   in-browser image upload and resize
 -   support for adding, deleting and reordering items
 
+# Preview
+
+<img src="img/preview.png" style="width: 75%" />
+
 # Demo
 
 https://alpinejs-page-editor.vercel.app
-
-# Preview
-
-<img src="img/preview.png" style="width: 50%" />
 
 # How to use
 
