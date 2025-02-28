@@ -107,14 +107,12 @@ But there's more: you can also add groups/arrays of items, which adhere to the s
 Optionally, you can provide a global `cfg` object to configure the editor:
 
 ```js
-cfg: {
-    'enableSettings': true, // decides if the 'settings' button is visible
-    'page': 'home', // this param is posted to /api/save when the user presses the 'save button'
-    'template': 'default', // this param is posted to /api/save when the user presses the 'save button'
-}
+cfg = {
+    enableSettings: true, // decides if the 'settings' button is visible
+    page: 'home', // this param is posted to /api/save when the user presses the 'save button'
+    template: 'default', // this param is posted to /api/save when the user presses the 'save button'
+};
 ```
-
-Optionallly
 
 ## Run the demo locally
 
