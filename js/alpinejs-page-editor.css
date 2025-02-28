@@ -59,7 +59,7 @@
     transition: transform 0.3s ease-in-out;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    z-index: 99999999;
+    z-index: 999;
 }
 
 .editor.open {
@@ -101,6 +101,7 @@
     border-top: 1px solid #ddd;
     padding: 20px;
     width: 335px;
+    z-index: 9999;
 }
 
 .dock {
@@ -356,4 +357,21 @@ textarea {
 
 .wdgt-img {
     border-radius: 8px;
+}
+
+.wdgt-tabs {
+    border-bottom: 1px solid #ddd;
+    height: 45px;
+    padding-left: 20px;
+    margin-bottom: -10px;
+}
+
+.wdgt-tab {
+    padding: 10px;
+    padding-top: 20px
+}
+
+
+.wdgt-tab-active {
+    border-bottom: 3px solid #1e41f3ff
 }

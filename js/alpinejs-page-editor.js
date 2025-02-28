@@ -3,7 +3,8 @@ const html = String.raw;
 
 editorDiv.innerHTML = html`
     <div class="editor" :class="{ 'open': item !== false }" spellcheck="false" x-cloak>
-        <div class="editor-head">
+        <div class="editor-head wdgt-tabs">
+            <span class="wdgt-tab wdgt-tab-active"> Edit </span>
             <button type="button" class="wdgt-btn-close wdgt-float-end" aria-label="Close" @click="closeEditor"></button>
         </div>
         <div class="editor-body">
