@@ -17,7 +17,7 @@ editorDiv.innerHTML = html`
                                     <template x-if="key!=='active' && key!=='id'">
                                         <div class="label" x-text="key.replaceAll('_', ' ')"></div>
                                     </template>
-                                    <template x-if="key=='body' || key=='description' || key=='details'">
+                                    <template x-if="key=='body' || key=='intro' || key=='description' || key=='details'">
                                         <div>
                                             <textarea class="wdgt-form-control" x-model="item[key]"></textarea>
                                         </div>
@@ -32,7 +32,7 @@ editorDiv.innerHTML = html`
                                         </div>
                                     </template>
 
-                                    <template x-if="key!=='body' && key!=='description' && key!=='details' && key!=='image' && key!=='items' && key!=='active' && key!=='id'">
+                                    <template x-if="key!=='body' && key!=='intro' && key!=='description' && key!=='details' && key!=='image' && key!=='items' && key!=='active' && key!=='id'">
                                         <div>
                                             <input type="text" class="wdgt-form-control" x-model="item[key]" />
                                         </div>
@@ -53,7 +53,7 @@ editorDiv.innerHTML = html`
                                                     <template x-for="[key, value] in Object.entries(obj)">
                                                         <div>
                                                             <div class="label" x-text="key.replaceAll('_', ' ')"></div>
-                                                            <template x-if="key=='body' || key=='description' || key=='details'">
+                                                            <template x-if="key=='body'|| key=='intro'  || key=='description' || key=='details'">
                                                                 <div>
                                                                     <textarea class="wdgt-form-control" x-model="item.items[index][key]"></textarea>
                                                                 </div>
@@ -66,7 +66,7 @@ editorDiv.innerHTML = html`
                                                                     </template>
                                                                 </div>
                                                             </template>
-                                                            <template x-if="key!=='body' && key!=='description' && key!=='details' && key!=='image'">
+                                                            <template x-if="key!=='body' && key!=='intro' && key!=='description' && key!=='details' && key!=='image'">
                                                                 <div>
                                                                     <input type="text" class="wdgt-form-control" x-model="item.items[index][key]" />
                                                                 </div>
