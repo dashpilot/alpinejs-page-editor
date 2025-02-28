@@ -1,4 +1,5 @@
-.editor * {
+.editor *,
+.settings * {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 400;
@@ -64,6 +65,25 @@
 
 .editor.open {
     transform: translateX(0);
+}
+
+
+.settings {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 375px;
+    height: 100%;
+    background-color: #f8f8f8;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    z-index: 999;
+}
+
+.settings.open {
+    transform: translateX(0%);
 }
 
 .label {
@@ -374,4 +394,91 @@ textarea {
 
 .wdgt-tab-active {
     border-bottom: 3px solid #1e41f3ff
+}
+
+.wdgt-box {
+    border: 1px solid #DDD;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.wdgt-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    /* Reduced width */
+    height: 20px;
+    /* Reduced height */
+}
+
+.wdgt-switch-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.wdgt-switch-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+    /* Adjusted to match height */
+}
+
+.wdgt-switch-label:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    /* Reduced height */
+    width: 16px;
+    /* Reduced width */
+    left: 2px;
+    /* Adjusted for smaller size */
+    bottom: 2px;
+    /* Adjusted for smaller size */
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+.wdgt-switch-input:checked+.wdgt-switch-label {
+    background-color: rgb(79, 70, 229);
+}
+
+.wdgt-switch-input:checked+.wdgt-switch-label:before {
+    transform: translateX(20px);
+    /* Adjusted for smaller size */
+}
+
+.wdgt-section-name {
+    text-transform: capitalize;
+}
+
+.wdgt-dock {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px 20px;
+}
+
+.wdgt-dock img {
+    width: 55px;
+    margin-right: 10px;
+}
+
+.wdgt-grow {
+    transition: all .2s ease-in-out;
+}
+
+.wdgt-grow:hover {
+    transform: scale(1.1);
 }

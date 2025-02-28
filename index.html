@@ -149,49 +149,55 @@
             <template x-if="loaded">
                 <div>
                     <!-- Hero Section -->
-                    <header class="hero-section" x-editable="hero">
-                        <div class="hero-content">
-                            <h1 class="hero-title" x-text="data.hero.title"></h1>
-                            <p class="hero-subtitle" x-text="data.hero.subtitle"></p>
-                        </div>
-                    </header>
+                    <template x-if="data.hero.active">
+                        <header class="hero-section" x-editable="hero">
+                            <div class="hero-content">
+                                <h1 class="hero-title" x-text="data.hero.title"></h1>
+                                <p class="hero-subtitle" x-text="data.hero.subtitle"></p>
+                            </div>
+                        </header>
+                    </template>
 
                     <!-- Services Section -->
-                    <section class="services-section">
-                        <div class="container">
-                            <div x-editable="services">
-                                <h2 class="section-title" x-text="data.services.title"></h2>
-                                <p class="section-description" x-text="data.services.description"></p>
+                    <template x-if="data.services.active">
+                        <section class="services-section">
+                            <div class="container">
+                                <div x-editable="services">
+                                    <h2 class="section-title" x-text="data.services.title"></h2>
+                                    <p class="section-description" x-text="data.services.description"></p>
 
-                                <div class="services-grid">
-                                    <template x-for="(service, index) in data.services.items" :key="index">
-                                        <div class="service-card">
-                                            <img :src="service.image || 'img/placeholder.jpg'" :alt="service.title" class="service-image" />
-                                            <div class="service-content">
-                                                <h3 class="service-title" x-text="service.title"></h3>
-                                                <p class="service-description" x-text="service.description"></p>
+                                    <div class="services-grid">
+                                        <template x-for="(service, index) in data.services.items" :key="index">
+                                            <div class="service-card">
+                                                <img :src="service.image || 'img/placeholder.jpg'" :alt="service.title" class="service-image" />
+                                                <div class="service-content">
+                                                    <h3 class="service-title" x-text="service.title"></h3>
+                                                    <p class="service-description" x-text="service.description"></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </template>
+                                        </template>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </template>
 
                     <!-- About Section -->
-                    <section class="about-section">
-                        <div class="container">
-                            <div class="about-container" x-editable="about">
-                                <div class="about-content">
-                                    <h2 class="about-title" x-text="data.about.title"></h2>
-                                    <p class="about-text" x-text="data.about.text"></p>
-                                </div>
-                                <div>
-                                    <img :src="data.about.image" alt="About Us" class="about-image" />
+                    <template x-if="data.about.active">
+                        <section class="about-section">
+                            <div class="container">
+                                <div class="about-container" x-editable="about">
+                                    <div class="about-content">
+                                        <h2 class="about-title" x-text="data.about.title"></h2>
+                                        <p class="about-text" x-text="data.about.text"></p>
+                                    </div>
+                                    <div>
+                                        <img :src="data.about.image" alt="About Us" class="about-image" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </section>
+                        </section>
+                    </template>
                 </div>
             </template>
         </div>

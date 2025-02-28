@@ -14,7 +14,9 @@ editorDiv.innerHTML = html`
                         <div>
                             <template x-for="[key, value] in Object.entries(item)">
                                 <div>
-                                    <div class="label" x-text="key"></div>
+                                    <template x-if="key!=='active' && key!=='id'">
+                                        <div class="label" x-text="key"></div>
+                                    </template>
                                     <template x-if="key=='body' || key=='description'">
                                         <div>
                                             <textarea class="wdgt-form-control" x-model="item[key]"></textarea>
@@ -30,7 +32,7 @@ editorDiv.innerHTML = html`
                                         </div>
                                     </template>
 
-                                    <template x-if="key!=='body' && key!=='description' && key!=='image' && key!=='items'">
+                                    <template x-if="key!=='body' && key!=='description' && key!=='image' && key!=='items' && key!=='active' && key!=='id'">
                                         <div>
                                             <input type="text" class="wdgt-form-control" x-model="item[key]" />
                                         </div>
@@ -92,6 +94,30 @@ editorDiv.innerHTML = html`
             <button class="wdgt-btn wdgt-btn-dark wdgt-w-100" @click="save">Save</button>
         </div>
     </template>
+
+    <div class="settings" :class="{ 'open': showSettings !== false }" spellcheck="false" x-cloak>
+        <div class="editor-head wdgt-tabs">
+            <span class="wdgt-tab wdgt-tab-active">Settings</span>
+            <button type="button" class="wdgt-btn-close wdgt-float-end" aria-label="Close" @click="showSettings = false"></button>
+        </div>
+
+        <div class="editor-body">
+            <div class="label">Sections</div>
+            <template x-for="[section, val] in Object.entries(data)">
+                <div>
+                    <div class="wdgt-box">
+                        <span class="wdgt-section-name" x-text="section"></span>
+                        <div class="wdgt-switch">
+                            <input type="checkbox" :id="'toggle-'+section" class="wdgt-switch-input" x-model="val.active" />
+                            <label :for="'toggle-'+section" class="wdgt-switch-label"></label>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <div class="wdgt-dock"><img src="/img/settings.png" class="wdgt-grow" @click="showSettings = true" /></div>
 `;
 document.getElementById('app').appendChild(editorDiv);
 
@@ -100,6 +126,7 @@ function app() {
         data: {},
         item: false,
         loaded: false,
+        showSettings: false,
         async init() {
             console.log('init');
 

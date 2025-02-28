@@ -10,6 +10,10 @@ Alpinejs Page Editor is an easy-to-use on-page editor for any Alpine.js project.
 
 <img src="img/preview.png" style="width: 100%" />
 
+# New: enable/disable sections
+
+<img src="img/settings-editor.png" style="width: 50%" />
+
 # Demo
 
 https://alpinejs-page-editor.vercel.app
@@ -112,6 +116,11 @@ npx serve
 ```
 
 This will start a local server on localhost:3000
+
+# Changelog
+
+-   2025-02-28: added settings panel where you can enable/disable sections
+-   2025-02-27: initial release
 
 ## Press the :star: button
 

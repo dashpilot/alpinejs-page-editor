@@ -1,9 +1,11 @@
 {
     "hero": {
+        "active": true,
         "title": "Welcome to Alpine.js Page Editor",
         "description": "A simple, reactive content editor that works with any HTML structure"
     },
     "services": {
+        "active": true,
         "title": "Our Services",
         "description": "We offer a wide range of services to meet your needs",
         "items": [
@@ -25,6 +27,7 @@
         ]
     },
     "about": {
+        "active": true,
         "title": "About Us",
         "text": "We are a team of passionate developers and designers dedicated to creating beautiful and functional digital experiences.",
         "image": "img/placeholder.jpg"
