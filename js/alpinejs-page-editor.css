@@ -353,3 +353,7 @@ textarea {
 .wdgt-group-title {
     padding-top: 10px;
 }
+
+.wdgt-img {
+    border-radius: 8px;
+}
