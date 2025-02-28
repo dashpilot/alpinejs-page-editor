@@ -117,7 +117,7 @@ editorDiv.innerHTML = html`
         </div>
     </div>
 
-    <div class="wdgt-dock"><img src="/img/settings.png" class="wdgt-grow" @click="showSettings = true" /></div>
+    <div class="wdgt-dock"><img src="/img/settings.png" class="wdgt-grow" @click="openSettings" /></div>
 `;
 document.getElementById('app').appendChild(editorDiv);
 
@@ -145,11 +145,15 @@ function app() {
             }
 
             document.body.addEventListener('click', (ev) => {
-                // Check if the clicked element or any of its parents has the 'x-editable' attribute
+                if (ev.target.tagName.toLowerCase() === 'a') {
+                    return;
+                }
+
                 let myel = ev.target.closest('[x-editable]');
                 if (myel) {
                     let section = myel.getAttribute('x-editable');
                     console.log(section);
+                    this.showSettings = false;
                     this.item = this.data[section];
 
                     document.querySelectorAll('.editing').forEach((el) => {
@@ -166,6 +170,14 @@ function app() {
         },
 
         closeEditor() {
+            this.item = false;
+            document.querySelectorAll('.editing').forEach((el) => {
+                el.classList.remove('editing');
+            });
+        },
+
+        openSettings() {
+            this.showSettings = true;
             this.item = false;
             document.querySelectorAll('.editing').forEach((el) => {
                 el.classList.remove('editing');
