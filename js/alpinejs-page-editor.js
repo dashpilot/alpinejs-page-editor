@@ -117,7 +117,9 @@ editorDiv.innerHTML = html`
         </div>
     </div>
 
-    <div class="wdgt-dock"><img src="/img/settings.png" class="wdgt-grow" @click="openSettings" /></div>
+    <div class="wdgt-dock">
+        <template x-if="enableSettings"><img src="https://alpinejs-page-editor.vercel.app/img/settings.png" class="wdgt-grow" @click="openSettings" /></template>
+    </div>
 `;
 document.getElementById('app').appendChild(editorDiv);
 
@@ -127,6 +129,7 @@ function app() {
         item: false,
         loaded: false,
         showSettings: false,
+        enableSettings: window.cfg?.enableSettings ?? true,
         async init() {
             console.log('init');
 
@@ -164,7 +167,33 @@ function app() {
                 }
             });
         },
-        save() {
+        async save() {
+            let postData = {
+                page: window.cfg?.page ?? 'home',
+                template: window.cfg?.template ?? 'default',
+                content: this.data,
+            };
+            try {
+                console.log(postData);
+
+                const response = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(postData), // Convert this.data to a JSON string
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+
+                const result = await response.json();
+                console.log('Data saved successfully:', result);
+            } catch (error) {
+                console.error('Endpoint /api/save does not exist. No worries.' + error);
+            }
+
             console.log(this.data);
             this.item = false;
         },
