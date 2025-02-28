@@ -144,23 +144,21 @@ function app() {
                 console.error('There was a problem with the fetch operation:', error);
             }
 
-            setTimeout(() => {
-                document.querySelectorAll('[x-editable]').forEach((el) => {
-                    el.addEventListener('click', (ev) => {
-                        let myel = ev.target.closest('[x-editable]');
-                        let section = myel.getAttribute('x-editable');
-                        console.log(section);
-                        this.item = this.data[section];
-                        // console.log(this.item);
+            document.body.addEventListener('click', (ev) => {
+                // Check if the clicked element or any of its parents has the 'x-editable' attribute
+                let myel = ev.target.closest('[x-editable]');
+                if (myel) {
+                    let section = myel.getAttribute('x-editable');
+                    console.log(section);
+                    this.item = this.data[section];
 
-                        document.querySelectorAll('.editing').forEach((el) => {
-                            el.classList.remove('editing');
-                        });
-                        myel.classList.add('editing');
-                        myel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    document.querySelectorAll('.editing').forEach((el) => {
+                        el.classList.remove('editing');
                     });
-                });
-            }, 500);
+                    myel.classList.add('editing');
+                    myel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
         },
         save() {
             console.log(this.data);
