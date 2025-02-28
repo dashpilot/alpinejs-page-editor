@@ -15,7 +15,7 @@ editorDiv.innerHTML = html`
                             <template x-for="[key, value] in Object.entries(item)">
                                 <div>
                                     <template x-if="key!=='active' && key!=='id'">
-                                        <div class="label" x-text="key"></div>
+                                        <div class="label" x-text="key.replaceAll('_', ' ')"></div>
                                     </template>
                                     <template x-if="key=='body' || key=='description'">
                                         <div>
@@ -52,7 +52,7 @@ editorDiv.innerHTML = html`
                                                     </div>
                                                     <template x-for="[key, value] in Object.entries(obj)">
                                                         <div>
-                                                            <div class="label" x-text="key"></div>
+                                                            <div class="label" x-text="key.replaceAll('_', ' ')"></div>
                                                             <template x-if="key=='body' || key=='description'">
                                                                 <div>
                                                                     <textarea class="wdgt-form-control" x-model="item.items[index][key]"></textarea>
