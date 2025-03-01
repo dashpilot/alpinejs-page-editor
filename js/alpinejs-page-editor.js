@@ -14,16 +14,45 @@ editorDiv.innerHTML = html`
                         <div>
                             <template x-for="[key, value] in Object.entries(item)">
                                 <div>
-                                    <template x-if="key!=='active' && key!=='id'">
+                                    <!-- Show label for all non-hidden fields -->
+                                    <template x-if="!isFieldType(key, 'hidden')">
                                         <div class="label" x-text="key.replaceAll('_', ' ')"></div>
                                     </template>
-                                    <template x-if="key=='body' || key=='intro' || key=='description' || key=='details'">
+
+                                    <!-- Text area fields -->
+                                    <template x-if="isFieldType(key, 'textarea')">
                                         <div>
                                             <textarea class="wdgt-form-control" x-model="item[key]"></textarea>
                                         </div>
                                     </template>
 
-                                    <template x-if="key=='image'">
+                                    <!-- HTML fields -->
+                                    <template x-if="isFieldType(key, 'html')">
+                                        <div>
+                                            <div class="wdgt-btn-group wdgt-pb">
+                                                <button @click="execCommand('bold')" class="wdgt-btn wdgt-btn-outline-secondary wdgt-rte-btn" title="Bold">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-type-bold" viewBox="0 0 16 16">
+                                                        <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z" />
+                                                    </svg>
+                                                </button>
+                                                <button @click="execCommand('italic')" class="wdgt-btn wdgt-btn-outline-secondary wdgt-rte-btn" title="Italic">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-type-italic" viewBox="0 0 16 16">
+                                                        <path d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z" />
+                                                    </svg>
+                                                </button>
+                                                <button @click="addLink()" class="wdgt-btn wdgt-btn-outline-secondary wdgt-rte-btn" title="Add Link">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-link-45deg" viewBox="0 0 16 16">
+                                                        <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z" />
+                                                        <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z" />
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                            <div id="rte-body" x-ref="richTextEditor" contenteditable="true" @input="handleRichTextChange" class="wdgt-form-control wdgt-overflow"></div>
+                                        </div>
+                                    </template>
+
+                                    <!-- Image fields -->
+                                    <template x-if="isFieldType(key, 'image')">
                                         <div>
                                             <span class="wdgt-btn wdgt-btn-outline-secondary btn-file"> Browse <input type="file" @change="(e) => uploadImage(e)" /> </span>
                                             <template x-if="item.image">
@@ -32,13 +61,15 @@ editorDiv.innerHTML = html`
                                         </div>
                                     </template>
 
-                                    <template x-if="key!=='body' && key!=='intro' && key!=='description' && key!=='details' && key!=='image' && key!=='items' && key!=='active' && key!=='id'">
+                                    <!-- Text input fields (everything else that's not special) -->
+                                    <template x-if="!isFieldType(key, 'textarea') && !isFieldType(key, 'html') && !isFieldType(key, 'image') && !isFieldType(key, 'array') && !isFieldType(key, 'hidden')">
                                         <div>
                                             <input type="text" class="wdgt-form-control" x-model="item[key]" />
                                         </div>
                                     </template>
 
-                                    <template x-if="key=='items' && item.items">
+                                    <!-- Array items -->
+                                    <template x-if="isFieldType(key, 'array') && item.items">
                                         <div>
                                             <template x-for="(obj, index) in item.items" :key="index">
                                                 <div class="wdgt-group">
@@ -53,12 +84,16 @@ editorDiv.innerHTML = html`
                                                     <template x-for="[key, value] in Object.entries(obj)">
                                                         <div>
                                                             <div class="label" x-text="key.replaceAll('_', ' ')"></div>
-                                                            <template x-if="key=='body'|| key=='intro'  || key=='description' || key=='details'">
+
+                                                            <!-- Text area fields -->
+                                                            <template x-if="isFieldType(key, 'textarea')">
                                                                 <div>
                                                                     <textarea class="wdgt-form-control" x-model="item.items[index][key]"></textarea>
                                                                 </div>
                                                             </template>
-                                                            <template x-if="key=='image'">
+
+                                                            <!-- Image fields -->
+                                                            <template x-if="isFieldType(key, 'image')">
                                                                 <div>
                                                                     <span class="wdgt-btn wdgt-btn-outline-secondary btn-file"> Browse <input type="file" @change="(e) => uploadImage(e, index)" /> </span>
                                                                     <template x-if="item.items[index].image">
@@ -66,7 +101,9 @@ editorDiv.innerHTML = html`
                                                                     </template>
                                                                 </div>
                                                             </template>
-                                                            <template x-if="key!=='body' && key!=='intro' && key!=='description' && key!=='details' && key!=='image'">
+
+                                                            <!-- Text input fields (everything else) -->
+                                                            <template x-if="!isFieldType(key, 'textarea') && !isFieldType(key, 'html') && !isFieldType(key, 'image') && !isFieldType(key, 'hidden')">
                                                                 <div>
                                                                     <input type="text" class="wdgt-form-control" x-model="item.items[index][key]" />
                                                                 </div>
@@ -130,6 +167,16 @@ function app() {
         loaded: false,
         showSettings: false,
         enableSettings: window.cfg?.enableSettings ?? true,
+        fieldTypes: {
+            hidden: ['active', 'id'],
+            textarea: ['intro', 'description', 'details'],
+            html: ['body'],
+            image: ['image'],
+            array: ['items'],
+        },
+        isFieldType(key, type) {
+            return this.fieldTypes[type].includes(key);
+        },
         async init() {
             console.log('init');
 
@@ -164,6 +211,12 @@ function app() {
                     });
                     myel.classList.add('editing');
                     myel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                    setTimeout(() => {
+                        if (document.querySelector('#rte-body')) {
+                            document.querySelector('#rte-body').innerHTML = this.item.body;
+                        }
+                    }, 10);
                 }
             });
         },
@@ -259,6 +312,26 @@ function app() {
             } else if (direction === 'down' && index < this.item.items.length - 1) {
                 [this.item.items[index], this.item.items[index + 1]] = [this.item.items[index + 1], this.item.items[index]];
             }
+        },
+
+        execCommand(command, value) {
+            document.execCommand(command, false, value);
+            const editor = this.$refs.richTextEditor;
+            if (this.item) {
+                this.item.body = editor.innerHTML;
+            }
+        },
+
+        addLink() {
+            const url = prompt('Enter URL:');
+            if (url) {
+                this.execCommand('createLink', url);
+            }
+        },
+
+        handleRichTextChange() {
+            const editor = this.$refs.richTextEditor;
+            this.item.body = editor.innerHTML;
         },
 
         uploadImage(event, index = null) {

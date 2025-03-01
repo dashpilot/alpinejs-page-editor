@@ -65,7 +65,7 @@ In order for the editor to automatically generate the necessary inputs, your dat
 
 Each section in your site corresponds to a top-level object key in data.json. The value of this key should be and object.
 
-If you name a key of that object `body` or `description` it becomes a multiline input (textarea). If you name it `image` ite becomes an image uploader. All other keys become single-line inputs.
+If you name a key of that object `intro`, `body`, `details` or `description` it becomes a multiline input (textarea). If you name it `image` ite becomes an image uploader. All other keys become single-line inputs.
 
 ```json
 {

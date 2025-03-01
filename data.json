@@ -7,7 +7,7 @@
     "services": {
         "active": true,
         "title": "Our Services",
-        "description": "We offer a wide range of services to meet your needs",
+        "body": "We offer a wide range of services to meet your needs",
         "items": [
             {
                 "title": "Web Development",

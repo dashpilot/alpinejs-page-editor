@@ -2,7 +2,6 @@
 .settings * {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
-    font-weight: 400;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -222,6 +221,11 @@ textarea {
     border-color: #86b7fe;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.wdgt-form-control.wdgt-overflow {
+    height: 180px;
+    overflow-y: auto;
 }
 
 .wdgt-btn {
@@ -481,4 +485,18 @@ textarea {
 
 .wdgt-grow:hover {
     transform: scale(1.1);
+}
+
+.wdgt-pb {
+    padding-bottom: 5px;
+}
+
+.wdgt-rte-btn {
+    width: 45px;
+    padding-top: 10px;
+}
+
+.wdgt-form-control a {
+    text-decoration: underline;
+    color: black;
 }

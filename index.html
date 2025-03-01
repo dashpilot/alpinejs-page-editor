@@ -164,7 +164,7 @@
                             <div class="container">
                                 <div x-editable="services">
                                     <h2 class="section-title" x-text="data.services.title"></h2>
-                                    <p class="section-description" x-text="data.services.description"></p>
+                                    <p class="section-description" x-html="data.services.body"></p>
 
                                     <div class="services-grid">
                                         <template x-for="(service, index) in data.services.items" :key="index">
