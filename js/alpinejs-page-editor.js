@@ -61,8 +61,34 @@ editorDiv.innerHTML = html`
                                         </div>
                                     </template>
 
+                                    <!-- Object fields (NEW) -->
+                                    <template x-if="isFieldType(key, 'object') && typeof item[key] === 'object'">
+                                        <div class="wdgt-group">
+                                            <div class="wdgt-group-header">
+                                                <span class="wdgt-group-title" x-text="key.replaceAll('_', ' ')"></span>
+                                            </div>
+                                            <template x-for="[objKey, objValue] in Object.entries(item[key])">
+                                                <div>
+                                                    <div class="label" x-text="objKey.replaceAll('_', ' ')"></div>
+                                                    <!-- Handle different types within objects -->
+                                                    <template x-if="isNestedFieldType(objKey, 'textarea')">
+                                                        <div>
+                                                            <textarea class="wdgt-form-control" x-model="item[key][objKey]"></textarea>
+                                                        </div>
+                                                    </template>
+                                                    <!-- Default to text input for object properties -->
+                                                    <template x-if="!isNestedFieldType(objKey, 'textarea')">
+                                                        <div>
+                                                            <input type="text" class="wdgt-form-control" x-model="item[key][objKey]" />
+                                                        </div>
+                                                    </template>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </template>
+
                                     <!-- Text input fields (everything else that's not special) -->
-                                    <template x-if="!isFieldType(key, 'textarea') && !isFieldType(key, 'html') && !isFieldType(key, 'image') && !isFieldType(key, 'array') && !isFieldType(key, 'hidden')">
+                                    <template x-if="!isFieldType(key, 'textarea') && !isFieldType(key, 'html') && !isFieldType(key, 'image') && !isFieldType(key, 'array') && !isFieldType(key, 'hidden') && !isFieldType(key, 'object')">
                                         <div>
                                             <input type="text" class="wdgt-form-control" x-model="item[key]" />
                                         </div>
@@ -102,8 +128,20 @@ editorDiv.innerHTML = html`
                                                                 </div>
                                                             </template>
 
+                                                            <!-- Object fields within array items (NEW) -->
+                                                            <template x-if="isFieldType(key, 'object') && typeof item.items[index][key] === 'object'">
+                                                                <div class="wdgt-group wdgt-nested-group">
+                                                                    <template x-for="[objKey, objValue] in Object.entries(item.items[index][key])">
+                                                                        <div>
+                                                                            <div class="label" x-text="objKey.replaceAll('_', ' ')"></div>
+                                                                            <input type="text" class="wdgt-form-control" x-model="item.items[index][key][objKey]" />
+                                                                        </div>
+                                                                    </template>
+                                                                </div>
+                                                            </template>
+
                                                             <!-- Text input fields (everything else) -->
-                                                            <template x-if="!isFieldType(key, 'textarea') && !isFieldType(key, 'html') && !isFieldType(key, 'image') && !isFieldType(key, 'hidden')">
+                                                            <template x-if="!isFieldType(key, 'textarea') && !isFieldType(key, 'html') && !isFieldType(key, 'image') && !isFieldType(key, 'hidden') && !isFieldType(key, 'object')">
                                                                 <div>
                                                                     <input type="text" class="wdgt-form-control" x-model="item.items[index][key]" />
                                                                 </div>
@@ -173,9 +211,16 @@ function app() {
             html: ['body'],
             image: ['image'],
             array: ['items'],
+            object: ['cta', 'link', 'button', 'social'], // Added object type
+        },
+        nestedFieldTypes: {
+            textarea: ['description'],
         },
         isFieldType(key, type) {
             return this.fieldTypes[type].includes(key);
+        },
+        isNestedFieldType(key, type) {
+            return this.nestedFieldTypes[type]?.includes(key) || false;
         },
         async init() {
             console.log('init');
@@ -271,7 +316,15 @@ function app() {
             const newItem = {};
             if (this.item.items.length > 0) {
                 Object.keys(this.item.items[0]).forEach((key) => {
-                    newItem[key] = '';
+                    // Handle nested objects by cloning them properly
+                    if (typeof this.item.items[0][key] === 'object' && this.item.items[0][key] !== null) {
+                        newItem[key] = {};
+                        Object.keys(this.item.items[0][key]).forEach((subKey) => {
+                            newItem[key][subKey] = '';
+                        });
+                    } else {
+                        newItem[key] = '';
+                    }
                 });
             }
 
