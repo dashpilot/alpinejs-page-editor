@@ -64,9 +64,7 @@ editorDiv.innerHTML = html`
                                     <!-- Object fields (NEW) -->
                                     <template x-if="isFieldType(key, 'object') && typeof item[key] === 'object'">
                                         <div class="wdgt-group">
-                                            <div class="wdgt-group-header">
-                                                <span class="wdgt-group-title" x-text="key.replaceAll('_', ' ')"></span>
-                                            </div>
+                                            <!-- No group header/title for object fields to avoid duplication -->
                                             <template x-for="[objKey, objValue] in Object.entries(item[key])">
                                                 <div>
                                                     <div class="label" x-text="objKey.replaceAll('_', ' ')"></div>
