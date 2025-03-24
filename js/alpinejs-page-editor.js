@@ -266,6 +266,9 @@ function app() {
                 console.log('Using provided data from window.cfg');
                 this.data = window.cfg.data;
                 this.loaded = true;
+
+                // Make sure to attach click handler even when using provided data
+                this.attachClickHandler();
                 return;
             }
 
@@ -281,10 +284,16 @@ function app() {
 
                 this.data = data;
                 this.loaded = true;
+
+                // Attach click handler after loading data
+                this.attachClickHandler();
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
+        },
 
+        // Separate the click handler into its own method
+        attachClickHandler() {
             document.body.addEventListener('click', (ev) => {
                 // Allow for custom click handler if defined
                 if (window.cfg?.customClickHandler && typeof window.cfg.customClickHandler === 'function') {
