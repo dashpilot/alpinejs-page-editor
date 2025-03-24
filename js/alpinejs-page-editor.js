@@ -198,24 +198,62 @@ editorDiv.innerHTML = html`
 `;
 document.getElementById('app').appendChild(editorDiv);
 
+// Helper function to deep merge objects
+function mergeDeep(target, source) {
+    const isObject = (obj) => obj && typeof obj === 'object' && !Array.isArray(obj);
+
+    if (!isObject(target) || !isObject(source)) {
+        return source !== undefined ? source : target;
+    }
+
+    const output = { ...target };
+
+    Object.keys(source).forEach((key) => {
+        if (isObject(source[key])) {
+            if (!(key in target)) {
+                output[key] = source[key];
+            } else {
+                output[key] = mergeDeep(target[key], source[key]);
+            }
+        } else if (Array.isArray(source[key])) {
+            // For arrays, we'll replace the entire array or use target's value if source is undefined
+            output[key] = source[key] !== undefined ? [...source[key]] : [...target[key]];
+        } else {
+            output[key] = source[key] !== undefined ? source[key] : target[key];
+        }
+    });
+
+    return output;
+}
+
 function app() {
+    // Define default configurations
+    const defaultFieldTypes = {
+        hidden: ['active', 'id'],
+        textarea: ['intro', 'description', 'details'],
+        html: ['body'],
+        image: ['image'],
+        array: ['items'],
+        object: ['cta', 'link', 'button', 'social'],
+    };
+
+    const defaultNestedFieldTypes = {
+        textarea: ['description'],
+    };
+
+    // Merge window.cfg configurations with defaults if they exist
+    const mergedFieldTypes = window.cfg?.fieldTypes ? mergeDeep(defaultFieldTypes, window.cfg.fieldTypes) : defaultFieldTypes;
+
+    const mergedNestedFieldTypes = window.cfg?.nestedFieldTypes ? mergeDeep(defaultNestedFieldTypes, window.cfg.nestedFieldTypes) : defaultNestedFieldTypes;
+
     return {
-        data: {},
+        data: window.cfg?.data || {},
         item: false,
         loaded: false,
         showSettings: false,
         enableSettings: window.cfg?.enableSettings ?? true,
-        fieldTypes: {
-            hidden: ['active', 'id'],
-            textarea: ['intro', 'description', 'details'],
-            html: ['body'],
-            image: ['image'],
-            array: ['items'],
-            object: ['cta', 'link', 'button', 'social'], // Added object type
-        },
-        nestedFieldTypes: {
-            textarea: ['description'],
-        },
+        fieldTypes: mergedFieldTypes,
+        nestedFieldTypes: mergedNestedFieldTypes,
         isFieldType(key, type) {
             return this.fieldTypes[type].includes(key);
         },
@@ -225,8 +263,18 @@ function app() {
         async init() {
             console.log('init');
 
+            // If window.cfg.data is provided, use it directly without fetching
+            if (window.cfg?.data && Object.keys(window.cfg.data).length > 0) {
+                console.log('Using provided data from window.cfg');
+                this.data = window.cfg.data;
+                this.loaded = true;
+                return;
+            }
+
+            // Otherwise fetch from data.json
             try {
-                const response = await fetch('data.json');
+                const dataUrl = window.cfg?.dataUrl || 'data.json';
+                const response = await fetch(dataUrl);
                 if (!response.ok) {
                     throw new Error('Network response was not ok ' + response.statusText);
                 }
@@ -240,6 +288,12 @@ function app() {
             }
 
             document.body.addEventListener('click', (ev) => {
+                // Allow for custom click handler if defined
+                if (window.cfg?.customClickHandler && typeof window.cfg.customClickHandler === 'function') {
+                    const result = window.cfg.customClickHandler(ev, this);
+                    if (result === false) return; // Stop default handling if custom handler returns false
+                }
+
                 if (ev.target.tagName.toLowerCase() === 'a') {
                     return;
                 }
@@ -259,7 +313,7 @@ function app() {
 
                     setTimeout(() => {
                         if (document.querySelector('#rte-body')) {
-                            document.querySelector('#rte-body').innerHTML = this.item.body;
+                            document.querySelector('#rte-body').innerHTML = this.item.body || '';
                         }
                     }, 10);
                 }

@@ -6,6 +6,8 @@ Alpinejs Page Editor is an easy-to-use on-page editor for any Alpine.js project.
 -   in-browser image upload and resize
 -   support for adding, deleting and reordering items
 
+> Heads up: If you like Alpine.js, you should definitely check out my Alpine.js Server-side-rendering (SSR) project: https://github.com/dashpilot/alpinejs-ssr
+
 # Preview
 
 <img src="img/preview.png" style="width: 100%" />
@@ -13,6 +15,13 @@ Alpinejs Page Editor is an easy-to-use on-page editor for any Alpine.js project.
 # New: enable/disable sections
 
 <img src="img/settings-editor.png" style="width: 50%" />
+
+# New: you can override the default settings by defining a global cfg object
+
+-   cfg.data (will override the data fetching)
+-   cfg.fieldTypes (will be automatically merged with existing settings)
+-   cfg.enableSettings
+-   cfg.dataUrl (alternative data source)
 
 # Demo
 
