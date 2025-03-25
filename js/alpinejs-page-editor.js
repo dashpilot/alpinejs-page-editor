@@ -269,6 +269,7 @@ function app() {
 
                 // Make sure to attach click handler even when using provided data
                 this.attachClickHandler();
+                this.attachHashChangeHandler();
                 return;
             }
 
@@ -285,11 +286,22 @@ function app() {
                 this.data = data;
                 this.loaded = true;
 
-                // Attach click handler after loading data
+                // Attach handlers after loading data
                 this.attachClickHandler();
+                this.attachHashChangeHandler();
             } catch (error) {
                 console.error('There was a problem with the fetch operation:', error);
             }
+        },
+
+        // Add handler for hashchange events
+        attachHashChangeHandler() {
+            // Listen for hash changes and close the editor
+            window.addEventListener('hashchange', () => {
+                console.log('Hash changed, closing editor');
+                this.closeEditor();
+                this.showSettings = false;
+            });
         },
 
         // Separate the click handler into its own method
